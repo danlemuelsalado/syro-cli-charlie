@@ -1,6 +1,6 @@
 before:
   hooks:
-    - make setup
+    - go tidy
     - go generate ./...
 project_name: syro
 release:
