@@ -20,6 +20,11 @@ var loginCmd = &cobra.Command{
 		token, _ := cmd.Flags().GetString("token")
 		projectId, _ := cmd.Flags().GetString("projectId")
 
+		isConfigLoaded, config, err := util.LoadConfigFromProjectConfigFile()
+		if err != nil {
+			fmt.Println("Something went wrong while loading items from your project's config file.")
+		}
+
 		if len(token) > 0 && len(projectId) > 0 {
 			companyId, validatedAccessToken, validatedProjectId, err := api.ValidateAccessTokenAndProjectId(token, projectId)
 			if err != nil {
@@ -29,10 +34,6 @@ var loginCmd = &cobra.Command{
 			return
 		}
 
-		isConfigLoaded, config, err := util.LoadConfigFromProjectConfigFile()
-		if err != nil {
-			fmt.Println("Something went wrong while loading items from your project's config file.")
-		}
 		if isConfigLoaded == true {
 			isSessionTokenValid, err := api.ValidateSessionToken(config.SessionToken)
 			if err != nil {
