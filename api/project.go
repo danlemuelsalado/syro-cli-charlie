@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"syro/model"
+	"syro/util"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -21,7 +22,7 @@ func ValidateProjectId(companyId string, memberId string, projectId string, sess
 		SetHeader("X-Parse-Application-Id", "paysail_local_app_id").
 		SetHeader("X-Parse-REST-API-Key", "paysail_local_app_master_key").
 		SetBody(requestBody).
-		Post("http://localhost:1337/v1/functions/cli_validate_project_id")
+		Post(fmt.Sprintf("%s%s", util.ServerApiUrl, util.CliValidateProjectId))
 
 	if err != nil {
 		fmt.Printf("Something went wrong while validating project ID.")
@@ -52,7 +53,7 @@ func FetchProjectItems(companyId string, memberId string, projectId string, sess
 		SetHeader("X-Parse-Application-Id", "paysail_local_app_id").
 		SetHeader("X-Parse-REST-API-Key", "paysail_local_app_master_key").
 		SetBody(requestBody).
-		Post("http://localhost:1337/v1/functions/cli_project_items")
+		Post(fmt.Sprintf("%s%s", util.ServerApiUrl, util.CliProjectItems))
 
 	if err != nil {
 		fmt.Printf("Something went wrong while fetching project secrets.")
@@ -83,7 +84,7 @@ func PullProjectItems(accessToken string, companyId string, projectId string) (s
 		SetHeader("X-Parse-Application-Id", "paysail_local_app_id").
 		SetHeader("X-Parse-REST-API-Key", "paysail_local_app_master_key").
 		SetBody(requestBody).
-		Post("http://localhost:1337/v1/functions/cli_pull_project_items")
+		Post(fmt.Sprintf("%s%s", util.ServerApiUrl, util.CliPullProjectItems))
 
 	if err != nil {
 		fmt.Printf("Something went wrong while pulling project secrets.")

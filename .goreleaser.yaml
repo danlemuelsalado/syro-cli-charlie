@@ -7,6 +7,7 @@ release:
     owner: danlemuelsalado
     name: syro-cli-charlie
 builds:
+  # amd64 builds
   - id: syro-cli-charlie-darwin-amd64
     ldflags:
       - -s -w -X github.com/danlemuelsalado/syro-cli-charlie/pkg/version.Version={{.Version}}
@@ -40,6 +41,40 @@ builds:
       - windows
     goarch:
       - amd64
+  # arm64 builds
+  - id: syro-cli-charlie-darwin-arm64
+    ldflags:
+      - -s -w -X github.com/danlemuelsalado/syro-cli-charlie/pkg/version.Version={{.Version}}
+    binary: syro
+    main: ./main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - arm64
+  - id: syro-cli-charlie-linux-arm64
+    ldflags:
+      - -s -w -X github.com/danlemuelsalado/syro-cli-charlie/pkg/version.Version={{.Version}}
+    binary: syro
+    main: ./main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - arm64
+  - id: syro-cli-charlie-windows-arm64
+    ldflags:
+      - -s -w -X github.com/danlemuelsalado/syro-cli-charlie/pkg/version.Version={{.Version}}
+    binary: syro
+    main: ./main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+    goarch:
+      - arm64
 
 archives:
   - format: tar.gz

@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"syro/model"
+	"syro/util"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -21,7 +22,7 @@ func Login(email string, password string) (companyId string, expiresAt string, m
 		SetHeader("X-Parse-Application-Id", "paysail_local_app_id").
 		SetHeader("X-Parse-REST-API-Key", "paysail_local_app_master_key").
 		SetBody(requestBody).
-		Post("http://localhost:1337/v1/functions/cli_login")
+		Post(fmt.Sprintf("%s%s", util.ServerApiUrl, util.CliLogin))
 
 	if err != nil {
 		fmt.Printf("Something went wrong while authenticating.")
@@ -52,7 +53,7 @@ func ValidateAccessTokenAndProjectId(accessToken string, projectId string) (comp
 		SetHeader("X-Parse-Application-Id", "paysail_local_app_id").
 		SetHeader("X-Parse-REST-API-Key", "paysail_local_app_master_key").
 		SetBody(requestBody).
-		Post("http://localhost:1337/v1/functions/cli_validate_access_token_and_project_id")
+		Post(fmt.Sprintf("%s%s", util.ServerApiUrl, util.CliValidateAccessTokenAndProjectId))
 
 	if err != nil {
 		fmt.Printf("Something went wrong while validating your access token and project ID.")
@@ -83,7 +84,7 @@ func ValidateSessionToken(sessionToken string) (isSessionTokenValid bool, err er
 		SetHeader("X-Parse-Application-Id", "paysail_local_app_id").
 		SetHeader("X-Parse-REST-API-Key", "paysail_local_app_master_key").
 		SetBody(requestBody).
-		Post("http://localhost:1337/v1/functions/cli_validate_session_token")
+		Post(fmt.Sprintf("%s%s", util.ServerApiUrl, util.CliValidateSessionToken))
 
 	if err != nil {
 		fmt.Printf("Something went wrong while validating your session token.")
