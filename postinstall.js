@@ -10,7 +10,8 @@ var path = require('path'),
 var ARCH_MAPPING = {
     "ia32": "386",
     "x64": "amd64",
-    "arm": "arm"
+    "arm": "arm",
+    "arm64": "arm64",
 };
 
 // Mapping between Node's `process.platform` to Golang's
@@ -140,7 +141,9 @@ async function install(callback) {
     if (!opts) return callback(INVALID_INPUT);
     mkdirp.sync(opts.binPath);
     console.info(`Copying the relevant binary for your platform ${process.platform}`);
-    const src = `./dist/syro-cli-charlie-${process.platform}-${ARCH_MAPPING[process.arch]}_${process.platform}_${ARCH_MAPPING[process.arch]}_v1/${opts.binName}`;
+    let archVersionExtension = "";
+    if (ARCH_MAPPING[process.arch] === ARCH_MAPPING.x64) archVersionExtension = "_v1"
+    const src = `./dist/syro-cli-charlie-${process.platform}-${ARCH_MAPPING[process.arch]}_${process.platform}_${ARCH_MAPPING[process.arch]}${archVersionExtension}/${opts.binName}`;
     await execShellCommand(`cp ${src} ${opts.binPath}/${opts.binName}`);
     await verifyAndPlaceBinary(opts.binName, opts.binPath, callback);
 }
